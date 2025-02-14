@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
 const requestId = require("./utils/requestId");
@@ -22,6 +23,8 @@ const { register, requestCounter, requestLatency, payloadSize } = require("./uti
 
 const setupApp = async () => {
   await loadRandomContents();
+
+  app.use(cors());
 
   const req_limit = process.env.REQUEST_SIZE_LIMIT || "10kb";
   app.use(express.json({"limit": req_limit}));
